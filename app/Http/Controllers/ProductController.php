@@ -61,6 +61,24 @@ class ProductController extends Controller
     public function update( Request $request , $id ) {
         //dd($request->all());//el metodo permite imprimir todos los datos del request
         // return view(); //almacenar el registro de un producto
+        //validar datos con reglas de laravel en documentacion hay mas
+        //mensajes personalizados para cada campo
+        $messages = [
+            'name.required' => 'El nombre es un campo obligatorio',
+            'name.min' => 'El nombre debe tener minimo 3 caracteres',
+            'description.required' => 'La descripción es un campo obligatorio',
+            'description.max' => 'La descripcion debe tener maximo 200 caracteres',
+            'price.required' => 'El precio es un campo obligatorio',
+            'price.numeric' => 'El precio es un campo de solo numeros',
+            'price.min' => 'El precio no debe ser menor de cero'
+        ];
+        $rules = [
+                'name' => 'required|min:3',
+                'description' => 'required|max:200',
+                'price' => 'required|numeric|min:0'
+        ];
+        $this->validate($request,$rules,$messages);
+        //crear producto para actualizar buscandolo por su id
         $product = Product::find( $id );
         $product -> name = $request->input('name');
         $product -> description = $request->input('description');

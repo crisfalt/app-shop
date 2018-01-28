@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 				<div class="card card-signup">
-					<form class="form" method="POST" action="{{ route('register') }}"">
+					<form class="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
                         <div class="header header-primary text-center">
 							<h4>Registro</h4>
@@ -65,37 +65,8 @@
 		</div>
 	</div>
 
-	<footer class="footer">
-        <div class="container">
-            <nav class="pull-left">
-				<ul>
-					<li>
-						<a href="http://www.creative-tim.com">
-							Creative Tim
-						</a>
-					</li>
-					<li>
-						<a href="http://presentation.creative-tim.com">
-						   About Us
-						</a>
-					</li>
-					<li>
-						<a href="http://blog.creative-tim.com">
-						   Blog
-						</a>
-					</li>
-					<li>
-						<a href="http://www.creative-tim.com/license">
-							Licenses
-						</a>
-					</li>
-				</ul>
-            </nav>
-            <div class="copyright pull-right">
-                &copy; 2016, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com" target="_blank">Creative Tim</a>
-            </div>
-        </div>
-    </footer>
+	<!-- incluir el footer desde una vista en la carpeta includes -->
+	@include('includes.footer')
 
 </div>
 @endsection
