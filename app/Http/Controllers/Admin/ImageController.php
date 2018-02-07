@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductImage;
 use File; //clase file php
@@ -12,7 +14,7 @@ class ImageController extends Controller
     //index
     public function index( $id ) {
         $product = Product::find($id);
-        $images = $product -> images; //para paginar los productos de 15 en 15
+        $images = $product -> images() -> orderBy('featured','desc') -> get(); //para mostrar las imagenes ordenadas por las destacada
         return view('admin.products.images.index')->with(compact('product','images')); //listado de productos
     }
 
@@ -66,6 +68,20 @@ class ImageController extends Controller
             $productImage -> delete(); //ELIMINAR
         }
         return back(); //nos devuelve a la pagina anterior
+    }
+
+    //poner imagen destacada
+    public function select( $idProduct , $idImage ) {
+        //quitar la anterior imagen destacada
+        ProductImage::where( 'product_id' , $idProduct ) -> update( [
+            'featured' => false
+        ]);
+
+        //poner la imagen destacada
+        $productImage = ProductImage::find( $idImage );
+        $productImage -> featured = true;
+        $productImage -> save(); //guardar cambios
+        return back();
     }
 
 }

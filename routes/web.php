@@ -21,9 +21,17 @@ Route::get('/', 'TestController@welcome');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/products/{id}','ProductController@show'); //mostrar el producto
+Route::post('/cart','CartDetailController@store');
+Route::delete('/cart','CartDetailController@destroy');
+
+//rutas para confirmar venta por parte del usuario
+Route::post('/order','CartController@update');
 
 //aplicar middleware admin para las rutas que puede acceder
-Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+//prefix se usa en las ruta el primer atributo
+//namespace es para sa segunda columna del get
+Route::middleware(['auth','admin'])->prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/products','ProductController@index');//listar todos los productos
     Route::get('/products/create','ProductController@create'); //vista permite crear nuevos productos solo administradores
     Route::post('/products','ProductController@store'); //enviar datos que permite crear nuevos productos solo administradores

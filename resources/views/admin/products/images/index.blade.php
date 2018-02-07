@@ -46,6 +46,11 @@
 	                            {{ method_field('DELETE') }}
 	                            <input type="hidden" name="image_id" value="{{ $image -> id }}">
 								<button type="submit" class="btn btn-danger btn-round">Eliminar Imagen</button>
+								@if( $image -> featured == true )
+									<button type="button" class="btn btn-info btn-fab btn-fab-mini btn-round" rel="tooltip" title="Imagen destacada actualmente"><i class="material-icons">favorite</i></button>
+								@else
+									<a href="{{ url('/admin/products/'.$product -> id.'/images/select/'.$image -> id) }}" class="btn btn-primary btn-fab btn-fab-mini btn-round" rel="tooltip" title="Imagen por destacar"><i class="material-icons">favorite</i></a>
+								@endif
 							</form>
 						</div>
 					</div>
