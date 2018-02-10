@@ -55,11 +55,14 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+						<div class="col-sm-6">
                             <div class="form-group label-floating">
                                 <label class="control-label">Categoría del producto</label>
                                 <select class="form-control" name="category_id">
-
+									<option class="form-control" value="0" selected>General</option>
+									@foreach( $categories as $categorie )
+											<option value="{{ $categorie -> id }}" @if( $categorie -> id == old( 'category_id', $product -> category_id ) )  selected @endif>{{ $categorie -> name }}</option>
+									@endforeach
                                 </select>
                             </div>
                         </div>

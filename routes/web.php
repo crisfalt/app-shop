@@ -22,6 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products/{id}','ProductController@show'); //mostrar el producto
+Route::get('/categories/{category}','CategoryController@show'); //mostrar categorias
 Route::post('/cart','CartDetailController@store');
 Route::delete('/cart','CartDetailController@destroy');
 
@@ -43,6 +44,16 @@ Route::middleware(['auth','admin'])->prefix('admin')->namespace('Admin')->group(
 	Route::post('/products/{id}/images', 'ImageController@store'); // registrar
 	Route::delete('/products/{id}/images', 'ImageController@destroy'); // form eliminar
 	Route::get('/products/{id}/images/select/{image}', 'ImageController@select'); // destacar
+
+    //rutas para el crud de categorias
+    //paso 1 para crear un CRUD de una tabla
+    Route::get('/categories','CategoryController@index');//listar todos los categorias
+    Route::get('/categories/create','CategoryController@create'); //vista permite crear nuevos productos solo administradores
+    Route::get('/categories/{id}','CategoryController@show'); //mostrar la categoria seleccionada de la lista
+    Route::post('/categories','CategoryController@store'); //enviar datos que permite crear nuevos productos solo administradores
+    Route::get('/categories/{id}/edit','CategoryController@edit'); //vista permite edita productos por medio de un id a solo administradores
+    Route::post('/categories/{id}/edit','CategoryController@update'); //enviar datos que permite actualizar productos con una id solo administradores
+    Route::delete('/categories/{id}','CategoryController@destroy'); //vista para eliminar productos
     //
 	// Route::get('/categories', 'CategoryController@index'); // listado
 	// Route::get('/categories/create', 'CategoryController@create'); // formulario

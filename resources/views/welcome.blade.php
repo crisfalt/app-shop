@@ -148,7 +148,7 @@
     	                        <img src="{{ $product -> featured_image_url }}" alt="Thumbnail Image" class="img-raised rounded">
     	                        <h4 class="title">
                                     <a href="{{ url('/products/'.$product -> id) }}">{{ $product -> name }} </a><br />
-    								<small class="text-muted">{{ $product->category ? $product->category->name : 'General' }}</small>
+    								<small class="text-muted">{{ $product->category_name }}</small>
     							</h4>
     	                        <p class="description">{{ $product->description }}</p>
     	                    </div>

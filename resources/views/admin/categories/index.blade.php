@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
-@section('title','Listado de Productos')
+@section('title','Listado de Categorias')
+
+@section('styles')
+	<style>
+		/* estilo para que la imagen quede bien redonda */
+		.rounded {
+			height: 80px;
+			width: 80px;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			-ms-border-radius: 50%;
+			-o-border-radius: 50%;
+			border-radius: 50%;
+			background-size:cover;
+		}
+	</style>
+@endsection
 
 @section('body-class','profile-page')
 
@@ -12,7 +28,7 @@
 <div class="main main-raised">
 	<div class="container">
     	<div class="section text-center">
-            <h2 class="title">Lista de Productos</h2>
+            <h2 class="title">Lista de Categorias</h2>
 
 			<div class="team">
 				<div class="row">
@@ -30,46 +46,42 @@
 							</div>
 						</div>
 		            @endif
-                    <a href="{{ url('/admin/products/create') }}" class="btn btn-primary btn-round">Nuevo producto</a>
+                    <a href="{{ url('/admin/categories/create') }}" class="btn btn-primary btn-round"><i class="material-icons">create</i> Nueva Categoria</a>
                     <!-- <br> -->
                     <hr>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
                                 <th class="col-md-2 text-center">Nombre</th>
                                 <th class="col-md-5 text-center">Descripción</th>
-                                <th class="text-center">Categoría</th>
-                                <th class="text-right">Precio</th>
+                                <!-- <th class="text-center">Imagen</th> -->
                                 <th class="text-right">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $product)
+                            @foreach ($categories as $key => $categorie)
                             <tr>
-                                <td class="text-center">{{ $product->id }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->description }}</td>
-                                <!-- operador ? para preguntar por un parametro existe si no muesta 'general' -->
-                                <!-- <td>{{ $product->category ? $product->category->name : 'General' }}</td> -->
-								<td>{{ $product->category_name }}</td>
-                                <td class="text-right">$ {{ $product->price }}</td>
+                                <td>{{ $categorie->name }}</td>
+                                <td>{{ $categorie->description }}</td>
+                                <!-- <td>
+									<img class="img-thumbnail rounded" src="{{ $categorie -> image }}" alt="" height="250" width="250">
+								</td> -->
                                 <td class="td-actions text-right">
-                                    <form method="post" action="{{ url('/admin/products/'.$product->id) }}">
+                                    <form method="post" action="{{ url('/admin/categories/'.$categorie->id) }}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <a href="{{ url('/products/'.$product->id) }}" rel="tooltip" title="Ver producto" class="btn btn-info btn-simple btn-xs">
+                                        <a href="{{ url('/admin/categories/'.$categorie->id) }}" rel="tooltip" title="Ver Categoria" class="btn btn-info btn-simple btn-xs"*>
                                             <i class="fa fa-info"></i>
                                         </a>
-                                        <a href="{{ url('/admin/products/'.$product->id.'/edit') }}" rel="tooltip" title="Editar producto" class="btn btn-success btn-simple btn-xs">
+                                        <a href="{{ url('/admin/categories/'.$categorie->id.'/edit') }}" rel="tooltip" title="Editar Categoria" class="btn btn-success btn-simple btn-xs">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{ url('/admin/products/'.$product->id.'/images') }}" rel="tooltip" title="Imágenes del producto" class="btn btn-warning btn-simple btn-xs">
+                                        <!-- <a href="{{ url('/admin/categories/'.$categorie->id.'/images') }}" rel="tooltip" title="Imágenes de la Categoria" class="btn btn-warning btn-simple btn-xs">
                                             <i class="fa fa-image"></i>
-                                        </a>
-                                        <button type="submit" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
+                                        </a> -->
+                                        <button type="submit" rel="tooltip" title="Eliminar Categoria" class="btn btn-danger btn-simple btn-xs">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </form>
@@ -79,7 +91,7 @@
                         </tbody>
                     </table>
                     <!-- para mostrar la paginacion hecha en el controlador -->
-                    {{ $products -> links() }}
+                    {{ $categories -> links() }}
 				</div>
 			</div>
 

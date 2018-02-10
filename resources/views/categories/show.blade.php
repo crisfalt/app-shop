@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','RicoMar | Dashboard')
+@section('title','RicoMar | Categorias')
 
 @section('styles')
 	<style>
@@ -32,8 +32,7 @@
                         <img src="{{ $product -> featured_image_url }}" alt="No se encontro" class="img-raised rounded">
                     </div>
                     <div class="name">
-                        <h3 class="title">{{ $product -> name }}</h3>
-						<h6>{{ $product->category ? $product->category->name : 'General' }}</h6>
+                        <h3 class="title">{{ $category -> name }}</h3>
                     </div>
                 </div>
             </div>
