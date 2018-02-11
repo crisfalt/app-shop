@@ -66,9 +66,20 @@ class CategoryController extends Controller
         $category = Category::find( $id );
         $category -> name = $request->input('name');
         $category -> description = $request->input('description');
-        $category -> save(); //actualizar producto
-        $notification = 'Categoria '.$category -> name.' Actualizada Exitosamente';
-        return redirect('/admin/categories') -> with( compact( 'notification' ) );
+        $file = $request->file('photocategory');
+        $path = public_path() . '/images/categories'; //concatena public_path la ruta absoluta a public y concatena la carpeta para imagenes
+        $fileName = uniqid() . $file->getClientOriginalName();//crea una imagen asi sea igual no la sobreescribe
+        $moved = $file->move( $path , $fileName );//dar la orden al archivo para que se guarde en la ruta indicada la sube al servidor
+        if( $moved ) {
+            $category -> image = $fileName;
+            $category -> save(); //registrar categoria
+            $notification = 'Categoria ' . $category -> name . ' Actualizada Exitosamente';
+            return redirect('/admin/categories') -> with( compact('notification') );
+        }
+        else {
+            $notification = 'No se logro guardar la categoria por la imagen';
+            return redirect('/admin/categories') -> with( compact('notification') );
+        }
     }
 
     //Metodo DELETE

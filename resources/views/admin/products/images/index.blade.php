@@ -2,6 +2,27 @@
 
 @section('title','Imagenes de Producto')
 
+@section('styles')
+	<style>
+
+		.quarter {
+			height: 400px;
+			width: 400px;
+		}
+		/* estilo para que la imagen quede bien redonda */
+		.rounded {
+			height: 400px;
+			width: 400px;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			-ms-border-radius: 50%;
+			-o-border-radius: 50%;
+			border-radius: 50%;
+			background-size:cover;
+		}
+	</style>
+@endsection
+
 @section('body-class','profile-page')
 
 @section('content')
@@ -26,7 +47,14 @@
 				<div class="panel-body"> -->
 			<form method="POST" action="" enctype="multipart/form-data">
 				{{ csrf_field() }}
-				<input type="file" name="photo">
+				<div class="row">
+					<input type="file" name="photo" id="photo">
+				</div>
+				<br>
+				<div class="row text-center">
+					<!-- Aqui pone la imagen que sube -->
+					<img src="" alt="..." class="img quarter" id="image">
+				</div>
 				<!-- <input type="hidden" id="txtPhoto" name="txtPhoto" value=""> -->
 				<button type="submit" class="btn btn-primary btn-round">Subir Nueva Imagen</button>
 				<a href="{{ url('/admin/products') }}" class="btn btn-default btn-round">Volver al listado de productos</a>
@@ -61,12 +89,23 @@
     </div>
 
 </div>
-<!-- <script type="text/javascript">
-	function cargarTxt( file ) {
-		$valor = document.getElementById('txtPhoto').value = file.value;
-		//alert($valor);
-	}
-</script> -->
+<script src="{{ asset('/js/jquery.min.js') }}" type="text/javascript"></script>
+<script>
+    //codigo para mostrar una imagen y refrescar el campo
+    function mostrarImagen(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $('#photo').on('change', function (e) {
+        mostrarImagen(this);
+    });
+</script>
 
 <!-- incluir el footer desde una vista en la carpeta includes -->
 @include('includes.footer')

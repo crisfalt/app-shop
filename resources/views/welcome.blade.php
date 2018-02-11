@@ -9,6 +9,7 @@
     <style media="screen">
         .team .row .col-md-4 {
             margin-bottom: 5em;
+            width: ;
         }
 
         /* codigo para que todas las columnas en bootstrap tengan la misma altura */
@@ -64,6 +65,11 @@
           margin: 0;
         }
 
+        .cout-size {
+            height: 200px;
+			width: 300px;
+        }
+
         .rounded {
 			height: 180px;
 			width: 300px;
@@ -78,7 +84,7 @@
 @endsection
 
 @section('content')
-<div class="header header-filter" style="background-image: url('https://images.unsplash.com/photo-1423655156442-ccc11daa4e99?crop=entropy&dpr=2&fit=crop&fm=jpg&h=750&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1450');">
+<div class="header header-filter" style="background-image: url('/img/fondo2.jpg');">
     <div class="container">
         <div class="row">
 			<div class="col-md-6">
@@ -95,7 +101,37 @@
 
 <div class="main main-raised">
 	<div class="container">
-    	<div class="section text-center section-landing">
+    	<div class="section text-center">
+            <h2 class="title">Visita Nuestras Categorías</h2>
+            <form class="form-inline" action="{{ url('/search') }}" method="get">
+                <input type="text" id="search" name="search" value="" placeholder="¿Que producto buscas?" class="form-control">
+                <button class="btn btn-primary btn-just-icon" type="submit">
+                	<i class="material-icons">search</i>
+                </button>
+            </form>
+			<div class="team">
+				<div class="row">
+                    @foreach ($categories as $category)
+					<div class="col-md-4 col-xs-12 text-center">
+	                    <div class="team-player">
+                            <!-- featured_image_url , path creada en el modelo product::getFeaturedImageUrlAttribute -->
+                            @if( $category -> image != "" )
+	                           <img src="/images/categories/{{ $category -> image }}" alt="Thumbnail Image" class="img-rounded cout-size">
+                            @else
+                                <img src="/images/categories/default2.jpg" alt="Thumbnail Image" class="img-rounded cout-size">
+                            @endif
+	                        <h4 class="title">
+                                <a href="{{ url('/categories/'.$category -> id) }}">{{ $category -> name }} </a><br />
+							</h4>
+	                        <p class="description">{{ $category->description }}</p>
+	                    </div>
+	                </div>
+                    @endforeach
+				</div>
+			</div>
+        </div>
+
+        <div class="section text-center section-landing">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <h2 class="title">¿Por qué confiar en RicoMar Online?</h2>
@@ -135,31 +171,6 @@
                 </div>
 			</div>
         </div>
-
-    	<div class="section text-center">
-            <h2 class="title">Nuestro Menu</h2>
-
-			<div class="team">
-    				<div class="row">
-                        @foreach ($products as $product)
-    					<div class="col-md-4 text-center">
-    	                    <div class="team-player">
-                                <!-- featured_image_url , path creada en el modelo product::getFeaturedImageUrlAttribute -->
-    	                        <img src="{{ $product -> featured_image_url }}" alt="Thumbnail Image" class="img-raised rounded">
-    	                        <h4 class="title">
-                                    <a href="{{ url('/products/'.$product -> id) }}">{{ $product -> name }} </a><br />
-    								<small class="text-muted">{{ $product->category_name }}</small>
-    							</h4>
-    	                        <p class="description">{{ $product->description }}</p>
-    	                    </div>
-    	                </div>
-                        @endforeach
-    				</div>
-                <!-- para mostrar la paginacion hecha en el controlador -->
-                {{ $products -> links() }}
-			</div>
-        </div>
-
 
     	<div class="section landing-section">
             <div class="row">
@@ -205,4 +216,31 @@
 
 <!-- incluir el footer desde una vista en la carpeta includes -->
 @include('includes.footer')
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('/js/typeahead.bundle.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            // constructs the suggestion engine
+            var products = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              // `states` is an array of state names defined in "The Basics"
+              // local: ['hola','hola2','prueba','prueba2','prueba3']
+              prefetch : '{{ url( "/products/json" ) }}'
+            });
+            //inicializar typeahead para busqueda predictiva
+            $('#search').typeahead({
+                hint: true,
+                highlight: true, //la palabra que vaya coincidiendo alumbre
+                minLength: 1 //suegerencias de palabras a partir de 1 caracter
+            },
+            {
+                name: 'products',
+                source: products
+            });
+        });
+    </script>
 @endsection

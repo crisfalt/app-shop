@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','RicoMar | Categorias')
+@section('title','Resultado de la Busqueda')
 
 @section('styles')
 	<style>
@@ -90,15 +90,16 @@
             <div class="row">
                 <div class="profile">
                     <div class="avatar">
-                        <img src="/images/categories/{{ $category -> image }}" alt="No se encontro" class="img-raised rounded">
+                        <img src="/img/search.png" alt="No se encontro la lupa" class="img-raised rounded">
                     </div>
                     <div class="name">
-                        <h3 class="title">{{ $category -> name }}</h3>
+                        <h3 class="title">Resultados de la Busqueda</h3>
                     </div>
                 </div>
             </div>
             <div class="description text-center">
-                <p>{{ $category -> description }}</p>
+				<!-- con count no se obtiene toda la cantidad total de paginate con total si  -->
+                <p>Se encontraron {{ $products -> total() }} Resultados para la palabra {{ $query }}</p>
             </div>
 			@if (session('notification'))
 				<div class="alert alert-success">

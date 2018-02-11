@@ -2,6 +2,27 @@
 
 @section('title','Ver Categoria')
 
+@section('styles')
+	<style>
+
+		.quarter {
+			height: 400px;
+			width: 400px;
+		}
+		/* estilo para que la imagen quede bien redonda */
+		.rounded {
+			height: 400px;
+			width: 400px;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			-ms-border-radius: 50%;
+			-o-border-radius: 50%;
+			border-radius: 50%;
+			background-size:cover;
+		}
+	</style>
+@endsection
+
 @section('body-class','profile-page')
 
 @section('content')
@@ -33,6 +54,11 @@
 						</div>
 
                     </div>
+					<div class="row text-center">
+						<!-- Aqui pone la imagen que sube -->
+						<img src="/images/categories/{{ $category -> image }}" class="img quarter" id="image">
+					</div>
+					<br>
                     <div class="text-center">
                         <a href="{{ url('/admin/categories') }}" class="btn btn-primary"><i class="material-icons">chevron_left</i> Volver</a>
                     </div>

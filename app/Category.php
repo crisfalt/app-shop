@@ -12,11 +12,13 @@ class Category extends Model
         'name.required' => 'El nombre es un campo obligatorio',
         'name.min' => 'El nombre debe tener minimo 3 caracteres',
         'description.required' => 'La descripción es un campo obligatorio',
-        'description.max' => 'La descripcion debe tener maximo 150 caracteres'
+        'description.max' => 'La descripcion debe tener maximo 150 caracteres',
+        'photocategory.required' => 'El campo imagen es obligatorio'
     ];
     public static $rules = [
             'name' => 'required|min:3',
-            'description' => 'required|max:150'
+            'description' => 'required|max:150',
+            'photocategory' => 'required'
     ];
 
     //Category -> pructs

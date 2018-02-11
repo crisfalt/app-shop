@@ -53,9 +53,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="col-md-2 text-center">Nombre</th>
-                                <th class="col-md-5 text-center">Descripción</th>
-                                <!-- <th class="text-center">Imagen</th> -->
+                                <th class="col-md-3 text-center">Nombre</th>
+                                <th class="col-md-6 text-center">Descripción</th>
+                                <th class="text-center">Imagen</th>
                                 <th class="text-right">Opciones</th>
                             </tr>
                         </thead>
@@ -64,9 +64,13 @@
                             <tr>
                                 <td>{{ $categorie->name }}</td>
                                 <td>{{ $categorie->description }}</td>
-                                <!-- <td>
-									<img class="img-thumbnail rounded" src="{{ $categorie -> image }}" alt="" height="250" width="250">
-								</td> -->
+                                <td>
+									@if( $categorie -> image != "" )
+										<img class="img-thumbnail rounded" src="/images/categories/{{ $categorie -> image }}">
+									@else
+										<img class="img-thumbnail rounded" src="/images/categories/default2.jpg">
+									@endif
+								</td>
                                 <td class="td-actions text-right">
                                     <form method="post" action="{{ url('/admin/categories/'.$categorie->id) }}">
                                         {{ csrf_field() }}

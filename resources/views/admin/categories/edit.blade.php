@@ -2,6 +2,27 @@
 
 @section('title','Editar Categoria')
 
+@section('styles')
+	<style>
+
+		.quarter {
+			height: 400px;
+			width: 400px;
+		}
+		/* estilo para que la imagen quede bien redonda */
+		.rounded {
+			height: 400px;
+			width: 400px;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			-ms-border-radius: 50%;
+			-o-border-radius: 50%;
+			border-radius: 50%;
+			background-size:cover;
+		}
+	</style>
+@endsection
+
 @section('body-class','profile-page')
 
 @section('content')
@@ -27,7 +48,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form method="post" action="{{ url('/admin/categories/'.$category->id.'/edit') }}">
+                    <form method="post" action="{{ url('/admin/categories/'.$category->id.'/edit') }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="row">
@@ -45,7 +66,15 @@
 						</div>
 
                     </div>
-
+					<div class="row">
+						<input type="file" name="photocategory" id="photocategory">
+					</div>
+					<br>
+					<div class="row text-center">
+						<!-- Aqui pone la imagen que sube -->
+						<img src="/images/categories/{{ $category -> image }}" class="img quarter" id="image">
+					</div>
+					<br>
                     <button class="btn btn-primary">Actualizar Categoria</button>
                     <a href="{{ url('/admin/categories') }}" class="btn btn-default">Cancelar</a>
                 </form>
@@ -57,7 +86,23 @@
     </div>
 
 </div>
+<script src="{{ asset('/js/jquery.min.js') }}" type="text/javascript"></script>
+<script>
+    //codigo para mostrar una imagen y refrescar el campo
+    function mostrarImagen(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
+    $('#photocategory').on('change', function (e) {
+        mostrarImagen(this);
+    });
+</script>
 <!-- incluir el footer desde una vista en la carpeta includes -->
 @include('includes.footer')
 @endsection

@@ -19,12 +19,17 @@ Route::get('/', 'TestController@welcome');
 // });
 
 Auth::routes();
+//se pone de primero para darle prioridad a esta ruta
+Route::get('/search' , 'SearchController@search');
+Route::get('/products/json' , 'SearchController@data');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products/{id}','ProductController@show'); //mostrar el producto
 Route::get('/categories/{category}','CategoryController@show'); //mostrar categorias
 Route::post('/cart','CartDetailController@store');
 Route::delete('/cart','CartDetailController@destroy');
+
+
 
 //rutas para confirmar venta por parte del usuario
 Route::post('/order','CartController@update');

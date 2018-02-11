@@ -91,10 +91,14 @@
 				</div>
             </div>
 			<div class="text-center">
-				@if( auth() -> user() -> admin)
-					<a href="{{ url('/admin/products') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Volver a Productos</a>
+				@if( auth() -> user() )
+					@if( auth() -> user() -> admin)
+						<a href="{{ url('/admin/products') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Volver a Productos</a>
+					@else
+						<a href="{{ url('/') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Volver a Categorias</a>
+					@endif
 				@else
-					<a href="{{ url('/') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Volver a Productos</a>
+					<a href="{{ url('/') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Volver a Categorias</a>
 				@endif
 			</div>
         </div>
