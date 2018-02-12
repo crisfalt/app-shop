@@ -103,8 +103,8 @@
 								</tr>
 								@endforeach
 								<tr>
-									<th class="text-center" colspan="4">Total</th>
-									<td class="text-right">valorTotal</td>
+									<th class="text-center" colspan="4">Total A Pagar</th>
+									<td class="text-right">{{ $totalTemp }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -118,6 +118,8 @@
 					<div class="col-md-2"> -->
 						<form class="" action="{{ url('/order') }}" method="post">
 							{{ csrf_field() }}
+							<!-- valor total del carrito de compras -->
+							<input type="hidden" name="total" value="{{ $totalTemp }}">
 							<a href="{{ url('/') }}" class="btn btn-primary btn-round"><i class="material-icons">keyboard_arrow_left</i> Seguir Comprando</a>
 							<button type="submit" class="btn btn-danger btn-round"><i class="material-icons">check_circle</i> Confirmar Compra</button>
 						</form>

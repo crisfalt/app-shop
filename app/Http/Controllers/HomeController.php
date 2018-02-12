@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cart;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cart = auth() -> user() -> cart;
+        $totalTemp = 0;
+        //calcular el valor total que lleva el carrito hasta ahora
+        foreach ($cart -> details as $detail) {
+            # code...
+            $totalTemp = $totalTemp + ( $detail -> product -> price * $detail -> quantity);
+        }
+        return view('home') -> with( compact('totalTemp') );
     }
 }

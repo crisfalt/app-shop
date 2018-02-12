@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Pedidos RicoMar')
+@section('title','Bienvenido a ' . config( 'app.name' ) )
 
 @section('body-class','landing-page')
 
@@ -88,7 +88,7 @@
     <div class="container">
         <div class="row">
 			<div class="col-md-6">
-				<h1 class="title">Rico Mar</h1>
+				<h1 class="title">Bienvenido a {{ config( 'app.name' ) }}</h1>
                 <h3>Realiza tus pedidos en linea y te contactaremos para coordinar la entrega </h3>
                 <br />
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-danger btn-raised btn-lg">
