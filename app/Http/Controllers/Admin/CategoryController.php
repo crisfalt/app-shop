@@ -60,26 +60,39 @@ class CategoryController extends Controller
 
     //Metodo POST para actualizar categoria
     public function update( Request $request , $id ) {
+        //validar datos con reglas de laravel en documentacion hay mas
+        //mensajes personalizados para cada campo
+        $messages = [
+            'name.required' => 'El nombre es un campo obligatorio',
+            'name.min' => 'El nombre debe tener minimo 3 caracteres',
+            'description.required' => 'La descripción es un campo obligatorio',
+            'description.max' => 'La descripcion debe tener maximo 150 caracteres'
+        ];
+        $rules = [
+                'name' => 'required|min:3',
+                'description' => 'required|max:150'
+        ];
         //se valida segun las reglas y mensajes creados en el modelo Category
-        $this->validate($request,Category::$rules,Category::$messages);
+        $this->validate($request,$rules,$messages);
         //crear producto para actualizar buscandolo por su id
         $category = Category::find( $id );
         $category -> name = $request->input('name');
         $category -> description = $request->input('description');
-        $file = $request->file('photocategory');
-        $path = public_path() . '/images/categories'; //concatena public_path la ruta absoluta a public y concatena la carpeta para imagenes
-        $fileName = uniqid() . $file->getClientOriginalName();//crea una imagen asi sea igual no la sobreescribe
-        $moved = $file->move( $path , $fileName );//dar la orden al archivo para que se guarde en la ruta indicada la sube al servidor
-        if( $moved ) {
-            $category -> image = $fileName;
-            $category -> save(); //registrar categoria
-            $notification = 'Categoria ' . $category -> name . ' Actualizada Exitosamente';
-            return redirect('/admin/categories') -> with( compact('notification') );
+        if( $request -> hasFile('photocategory') ) { //si el campo image tiene un archivo
+            $file = $request->file('photocategory');
+            $path = public_path() . '/images/categories'; //concatena public_path la ruta absoluta a public y concatena la carpeta para imagenes
+            $fileName = uniqid() . $file->getClientOriginalName();//crea una imagen asi sea igual no la sobreescribe
+            $moved = $file->move( $path , $fileName );//dar la orden al archivo para que se guarde en la ruta indicada la sube al servidor
+            if( $moved ) {
+                $previousPath = $path  . '/' . $category -> image; //obtener el antiguo path de la imagen para eliminar
+                $category -> image = $fileName;
+                $saved = $category -> save(); //registrar categoria , atributo saved para guardar el valor del save
+                //codigo para eliminar la imagen anterior
+                if( $saved ) File::delete($previousPath); //if la cateogira se guardo elimine la imagen anterior
+            }
         }
-        else {
-            $notification = 'No se logro guardar la categoria por la imagen';
-            return redirect('/admin/categories') -> with( compact('notification') );
-        }
+        $notification = 'Categoria ' . $category -> name . ' Actualizada Exitosamente';
+        return redirect('/admin/categories') -> with( compact('notification') );
     }
 
     //Metodo DELETE

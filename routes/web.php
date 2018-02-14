@@ -28,8 +28,8 @@ Route::get('/products/{id}','ProductController@show'); //mostrar el producto
 Route::get('/categories/{category}','CategoryController@show'); //mostrar categorias
 Route::post('/cart','CartDetailController@store');
 Route::delete('/cart','CartDetailController@destroy');
-
-
+//para redirigi al registro desde el formulario principal con nombre y correo
+// Route::get('/registerinput' , 'RegisterController@showRegistrationForm');
 
 //rutas para confirmar venta por parte del usuario
 Route::post('/order','CartController@update');

@@ -24,6 +24,16 @@
 								</a>
 							</div> -->
 						</div>
+						<!-- Mostrar los errores capturados por validate -->
+						@if ($errors->any())
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+						@endif
 						<p class="text-divider">Completar Tus Datos</p>
 						<div class="content">
 
@@ -31,14 +41,35 @@
 								<span class="input-group-addon">
 									<i class="material-icons">face</i>
 								</span>
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nombre..." required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name' , $name ) }}" placeholder="Nombre..." required autofocus>
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">person_pin</i>
+								</span>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username' ) }}" placeholder="Nombre de Usuario..." required>
 							</div>
 
                             <div class="input-group">
 								<span class="input-group-addon">
 									<i class="material-icons">email</i>
 								</span>
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Correo Electronico..." required>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email' , $email) }}" placeholder="Correo Electronico...">
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">phone</i>
+								</span>
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Telefono..." required>
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">home</i>
+								</span>
+                                <input id="address" type="text" class="form-control" name="address" value="{{ old('address') }}" placeholder="Direccion..." required>
 							</div>
 
 							<div class="input-group">

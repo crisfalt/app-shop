@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -49,8 +50,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'nullable|email|max:255|unique:users',//nullable=permite valore nulos, unique que el valor sea unico en la tabla usuario
             'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required|numeric|min:7',
+            'address' => 'required|string|max:255',
+            'username' => 'required|string|min:6|max:255|unique:users',
         ]);
     }
 
@@ -64,8 +68,20 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['email'] ?: '', //?: para evitar conflictos
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
+            'address' => $data['address'],
+            'username' => $data['username']
         ]);
     }
+
+    //sobreescribir metodo de RegisterUsers
+    public function showRegistrationForm( Request $request )
+    {
+        $name = $request -> input('name');
+        $email = $request -> input('email');
+        return view('auth.register') -> with( compact('name','email') );
+    }
+
 }

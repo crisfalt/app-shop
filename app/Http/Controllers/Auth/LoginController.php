@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -36,4 +37,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    //se reescribe el metodo showLoginForm recibiendo un parametro redirect_to
+    //que sirve para redirigir al usuario luego que inicie sesion a la pagina que etaba viendo
+    public function showLoginForm( Request $request ) {
+        if( $request -> has('redirect_to') ) {
+            //se crea una variable de session
+            session() -> put( 'redirect_to' , $request -> input('redirect_to' ) );
+            $notification = 'Debes registrarte para poder continuar con la compra';
+            return view('auth.login') -> with( compact('notification') );
+        }
+        return view('auth.login');
+    }
+
+    //metodo que nos  devuelve a donde estabamos antes de iniciarsession
+    //por medio de la variable redirect_to que llega de la vista
+    public function redirectTo() {
+        if( session() -> has('redirect_to') ) {
+            return session() -> pull( 'redirect_to' );
+        }
+        return $this -> redirect_to;
+    }
+
 }

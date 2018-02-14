@@ -42,10 +42,12 @@
             </div>
 			<div class="text-center">
 				<!-- si hay un usuario ingresado puede agregar el producto al carrito -->
+				{{-- @if( auth() -> check() ) si existe una session activa --}}
 				@if( auth() -> user() )
 					<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#addToCart"><i class="material-icons">add_shopping_cart</i> Añadir Al Carrito</button>
 				@else
-					<a href="{{ url('/register') }}" class="btn btn-primary btn-round"><i class="material-icons">add_shopping_cart</i> Añadir Al Carrito</a>
+					{{-- se pone parametro ?redirect_to pasando la url actual para redirigir al usuario a la pagina donde estaba --}}
+					<a href="{{ url('/login?redirect_to='.url() -> current() ) }}" class="btn btn-primary btn-round"><i class="material-icons">add_shopping_cart</i> Añadir Al Carrito</a>
 				@endif
 			</div>
 			@if (session('notification'))

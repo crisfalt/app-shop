@@ -7,7 +7,15 @@ use App\CartDetail;
 
 class CartDetailController extends Controller
 {
-    //
+    //Constructor de esta clase que primero identifica si hay un usuario logueado
+    //si existe un usuario logueado entonces puede acceder a los metodos es decir
+    //antes de acceder al metodo store o destroy primero entra al constructor y valida si un
+    //usuario inicio sesion , si no no deje hacer los metodos
+    public function __construct() {
+        $this -> middleware('auth');//verificar si alguien a iniciado sesion
+    }
+
+
     public function store( Request $request ) {
         $cartDetail = new CartDetail();
         $cartDetail -> cart_id = auth() -> user() -> cart -> id;

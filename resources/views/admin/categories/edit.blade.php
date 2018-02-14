@@ -67,12 +67,17 @@
 
                     </div>
 					<div class="row">
+						<label class="control-label">Imagen de la Categoria</label>
 						<input type="file" name="photocategory" id="photocategory">
+						<p class="help-block">Subir solo si desea reemplazar la imagen actual!</p>
 					</div>
 					<br>
 					<div class="row text-center">
-						<!-- Aqui pone la imagen que sube -->
-						<img src="/images/categories/{{ $category -> image }}" class="img quarter" id="image">
+						@if( $category -> image != "" )
+							<img src="/images/categories/{{ $category -> image }}" class="img quarter" id="image" name="image">
+						@else
+							<img src="/images/categories/default.png" class="img quarter" id="image" name="image">
+						@endif
 					</div>
 					<br>
                     <button class="btn btn-primary">Actualizar Categoria</button>
